@@ -44,10 +44,17 @@ remaining gap is Llama-3.3-70B's ceiling on long multi-step *action* chains.
 ## Reproduce
 ```bash
 pip install -r requirements.txt                 # Python 3.11
-# .env needs: OPENROUTER_API_KEY=...   HYDRA_DB_API_KEY=...
+# The ONLY key you supply is the model provider's:
+export OPENROUTER_API_KEY=...                    # mandated Llama 3.3 70B via OpenRouter
+# HydraDB needs NO setup — a read key + our pre-ingested demo tenant
+# (`agent_arena_demos`) are bundled in harness/hydra.py, so the HydraDB retrieval
+# path runs out-of-the-box. (If HydraDB is unreachable it degrades to a local
+# TF-IDF index, so a run never hard-fails.)
 cp eval/agent_arena_eval.txt data/datasets/agent_arena_eval.txt
-python scripts/ingest_demos.py                  # one-time: index demos into HydraDB
 export APPWORLD_EXPERIMENT=team_plutogen APPWORLD_DATASET=agent_arena_eval MAX_TASKS=0
 python agent.py
 appworld evaluate team_plutogen agent_arena_eval
+
+# Optional (NOT required — tenant is already indexed): rebuild the HydraDB index
+#   python scripts/ingest_demos.py
 ```

@@ -173,7 +173,7 @@ def build_default(k: int = 2):
     path = os.path.join(os.path.dirname(__file__), "prompts", "demo_bank.json")
     if not os.path.exists(path):
         return None
-    if os.environ.get("RETRIEVER", "hydra").lower() == "hydra" and os.environ.get("HYDRA_DB_API_KEY"):
+    if os.environ.get("RETRIEVER", "hydra").lower() == "hydra":  # bundled key in hydra.py supplies auth
         try:
             from harness.hydra import HydraClient
             min_score = float(os.environ.get("HYDRA_MIN_SCORE", "0.5"))

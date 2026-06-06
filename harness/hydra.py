@@ -14,11 +14,17 @@ import time
 
 import httpx
 
+# --- Bundled HydraDB credential ------------------------------------------------
+# Committed so evaluators run the HydraDB retrieval path with ZERO setup against
+# our pre-ingested demo tenant. Throwaway hackathon key — rotate/revoke after
+# judging. Override anytime via the HYDRA_DB_API_KEY env var.
+_BUNDLED_HYDRA_KEY = 'sk_test_qvFAN7BbHuSH.QzBFd9nLhO7RkQKYrSaVy6-xDOhg5DAqxz8GuvwC7SI'
+
 
 class HydraClient:
     def __init__(self, token: str | None = None,
                  base_url: str = "https://api.hydradb.com", timeout: float = 60.0) -> None:
-        token = token or os.environ.get("HYDRA_DB_API_KEY")
+        token = token or os.environ.get("HYDRA_DB_API_KEY") or _BUNDLED_HYDRA_KEY
         if not token:
             raise RuntimeError("HYDRA_DB_API_KEY is not set (get one from HydraDB)")
         # Note: NO global Content-Type — JSON calls use json=, the multipart ingest
