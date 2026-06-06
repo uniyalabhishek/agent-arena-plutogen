@@ -1,0 +1,8 @@
+["UPDATE products SET record_hash=?, inventory_quantity=? WHERE products.id = ?",["2aWgNVmgJao=",1,1340],false]
+["UPDATE products SET record_hash=?, inventory_quantity=? WHERE products.id = ?",["sWeAYS3ekdE=",1,1343],false]
+["UPDATE products SET record_hash=?, inventory_quantity=? WHERE products.id = ?",["DKOWWXbmxso=",1,1344],false]
+["UPDATE products SET record_hash=?, inventory_quantity=? WHERE products.id = ?",["RcOM+O9yPPY=",4,1341],false]
+["UPDATE products SET record_hash=?, inventory_quantity=? WHERE products.id = ?",["oueyCEQk2xA=",4,1342],false]
+["INSERT INTO cart_entries (record_hash, user_id, product_id, quantity, gift_wrap_quantity) VALUES (?, ?, ?, ?, ?)",["2dM9avG8ZxQ=",3,2327,1,0],false]
+["UPDATE cart_entries SET record_hash=?, quantity=? WHERE cart_entries.id = ?",["782CYYn/0a8=",2,8328],false]
+["UPDATE cart_entries SET record_hash=?, quantity=? WHERE cart_entries.id = ?",["LLb3QwkZ03M=",3,8328],false]

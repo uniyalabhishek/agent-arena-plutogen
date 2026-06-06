@@ -1,0 +1,10 @@
+{
+    "gmail": {
+        "Email": 5,
+        "GlobalEmailThread": 5,
+        "UserEmailThread": 17
+    },
+    "supervisor": {
+        "Task": 1
+    }
+}

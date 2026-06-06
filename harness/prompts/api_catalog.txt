@@ -1,0 +1,481 @@
+# AppWorld API catalog — every available API as `app.api_name: description`.
+# Call apis.api_docs.show_api_doc(app_name=..., api_name=...) for full params/response schema before using one.
+
+## api_docs — An app to search and explore API documentation.
+- api_docs.show_app_descriptions: Show descriptions for all apps available.
+- api_docs.show_api_descriptions: Show descriptions for all APIs available for a given app.
+- api_docs.show_api_doc: Show detailed API doc.
+- api_docs.search_api_docs: Search for relevant API docs.
+
+## supervisor — An app to access supervisor's personal information, account credentials, addresses, payment cards, and manage the assigned task.
+- supervisor.show_active_task: Show the currently active task assigned to you by the supervisor.
+- supervisor.complete_task: Mark the currently active task as complete with the given answer.
+- supervisor.show_profile: Show your supervisor's profile information.
+- supervisor.show_addresses: Show your supervisor's addresses.
+- supervisor.show_payment_cards: Show your supervisor's payment_cards.
+- supervisor.show_account_passwords: Show your supervisor's app account passwords.
+
+## amazon — An online shopping app to buy products and manage orders, returns, etc.
+- amazon.show_account: Show your account information. Unlike show_profile, this includes private information.
+- amazon.signup: Sign up to create account.
+- amazon.delete_account: Delete your account.
+- amazon.update_account_name: Update your first or last name in the account profile.
+- amazon.login: Login to your account.
+- amazon.logout: Logout from your account.
+- amazon.send_verification_code: Send account verification code to your email address.
+- amazon.verify_account: Verify your account using the verification code sent to your email address.
+- amazon.send_password_reset_code: Send password reset code to your email address.
+- amazon.reset_password: Reset your password using the password reset code sent to your email address.
+- amazon.show_profile: Show public profile information of a user.
+- amazon.show_product: Show product information based on its ID.
+- amazon.search_sellers: Search for sellers with a query.
+- amazon.show_seller: Show a detailed information about the seller.
+- amazon.search_product_types: Search product types present in the database.
+- amazon.show_product_feature_choices: Show the choices of colors, relative sizes and sellers aggregated over all products of the given product type. Because it's an aggregation, the choices may not be available for all products. If product type is not passed, it will return the choices for all products in the database.
+- amazon.search_products: Search for products with a query and various filtering criteria.
+- amazon.show_cart: show your cart.
+- amazon.clear_cart: Clear your cart.
+- amazon.add_product_to_cart: Add product by id and quantities to your cart.
+- amazon.delete_product_from_cart: Remove a product from your cart.
+- amazon.update_product_quantity_in_cart: Update product quantity in the user cart.
+- amazon.apply_promo_code_to_cart: Apply a promo code to your cart.
+- amazon.remove_promo_code_from_cart: Remove a promo code from your cart.
+- amazon.show_wish_list: Get list of products in your wishlist.
+- amazon.clear_wish_list: Clear wish list.
+- amazon.add_product_to_wish_list: Add product by id and quantities to your wish list.
+- amazon.delete_product_from_wish_list: Remove product from the user wish list.
+- amazon.update_product_quantity_in_wish_list: Update product quantity in the user wish_list.
+- amazon.move_product_from_cart_to_wish_list: Move product from the cart to the wish list.
+- amazon.move_product_from_wish_list_to_cart: Move product from the wish list to the cart.
+- amazon.add_gift_wrapping_to_product: Add gift wrapping to a product in your cart. If the product is already set to be gift wrapped, its quantity will be updated.
+- amazon.remove_gift_wrapping_from_product: Remove gift wrapping from a product in your cart.
+- amazon.show_orders: Show or search your past orders
+- amazon.place_order: Place an order for all the items in your cart.
+- amazon.show_order: Get details of a past order.
+- amazon.download_order_receipt: Download the receipt of a past order.
+- amazon.show_payment_cards: Get a list of your payment_cards.
+- amazon.add_payment_card: Add a new payment card.
+- amazon.show_payment_card: Get details of a payment card.
+- amazon.delete_payment_card: Delete payment card information.
+- amazon.update_payment_card: Update payment card information.
+- amazon.show_addresses: Get a list of your addresses.
+- amazon.add_address: Add a new address.
+- amazon.delete_address: Delete address information.
+- amazon.update_address: Update address information.
+- amazon.show_product_reviews: Get a list of product reviews.
+- amazon.write_product_review: Write a product review.
+- amazon.delete_product_review: Delete a product review.
+- amazon.update_product_review: Update a product review.
+- amazon.show_product_questions: Get a list of product questions.
+- amazon.write_product_question: Post a question about a product.
+- amazon.show_product_question_answers: Get a list of answers to a product question.
+- amazon.write_product_question_answer: Write a answer to a product question.
+- amazon.delete_product_question: Delete a product question.
+- amazon.update_product_question: Update a product question.
+- amazon.delete_product_question_answer: Delete a answer to a product question.
+- amazon.update_product_question_answer: Update answer to a product question.
+- amazon.show_returns: Get a list of your product returns.
+- amazon.initiate_return: Initiate a product return.
+- amazon.show_return: Show product return status.
+- amazon.show_return_deliverers: Get a list of product return deliverers.
+- amazon.show_prime_plans: Show information about prime plans available. Delivery fee is waived for prime members.
+- amazon.show_prime_subscriptions: Show your prime subscription history.
+- amazon.subscribe_prime: Subscribe to prime membership.
+- amazon.download_prime_subscription_receipt: Download the receipt for a prime subscription.
+
+## phone — An app to find and manage contact information for friends, family members, etc., send and receive messages, and manage alarms.
+- phone.show_account: Show your account information. Unlike show_profile, this includes private information.
+- phone.signup: Sign up to create account.
+- phone.delete_account: Delete your account.
+- phone.update_account_name: Update your first or last name in the account profile.
+- phone.login: Login to your account.
+- phone.logout: Logout from your account.
+- phone.send_password_reset_code: Send password reset code to your phone number.
+- phone.reset_password: Reset your password using the password reset code sent to your email address.
+- phone.show_profile: Show public profile information of a user.
+- phone.show_contact_relationships: Get a list of all relationships available in your contact book.
+- phone.search_contacts: Search your contact book for relatives' information.
+- phone.add_contact: Add a new contact.
+- phone.delete_contact: Delete contact information.
+- phone.update_contact: Update contact information.
+- phone.show_text_message_window: Show text messages with a contact around a given date and time.
+- phone.search_text_messages: Show or search your text messages.
+- phone.show_text_message: Show text message details.
+- phone.delete_text_message: Delete a text message.
+- phone.send_text_message: Send a text message on the given phone number.
+- phone.show_alarms: Get a list of alarms.
+- phone.create_alarm: Create a new alarm.
+- phone.show_alarm: Show alarm details.
+- phone.delete_alarm: Delete an alarm.
+- phone.update_alarm: Update an alarm's settings.
+- phone.show_voice_message_window: Show voice messages with a contact around a given date and time.
+- phone.search_voice_messages: Show or search text voice_messages between the user and a contact.
+- phone.show_voice_message: Show voice message details.
+- phone.delete_voice_message: Delete a voice message.
+- phone.send_voice_message: Send a voice message on the given phone number.
+- phone.get_current_date_and_time: Show current date and time.
+
+## file_system — A file system app to create and manage files and folders.
+- file_system.show_account: Show your account information. Unlike show_profile, this includes private information.
+- file_system.signup: Sign up to create account.
+- file_system.delete_account: Delete your account.
+- file_system.update_account_name: Update your first or last name in the account profile.
+- file_system.login: Login to your account.
+- file_system.logout: Logout from your account.
+- file_system.send_verification_code: Send account verification code to your email address.
+- file_system.verify_account: Verify your account using the verification code sent to your email address.
+- file_system.send_password_reset_code: Send password reset code to your email address.
+- file_system.reset_password: Reset your password using the password reset code sent to your email address.
+- file_system.show_profile: Show public profile information of a user.
+- file_system.show_directory: Show a list of files and/or sub-directories, optionally recursively, in a directory.
+- file_system.create_directory: Create a directory if it does not exist, optionally recursively.
+- file_system.delete_directory: Delete a directory with its sub-directories and files.
+- file_system.directory_exists: Check if a directory exists.
+- file_system.show_file: Show a file's content and other details, if it exists.
+- file_system.create_file: Create a new file with the given content.
+- file_system.delete_file: Delete a file.
+- file_system.update_file: Update a file's content.
+- file_system.file_exists: Check if a file exists.
+- file_system.copy_file: Copy a file to another location.
+- file_system.move_file: Move a file to another location.
+- file_system.copy_directory: Copy a directory to another location.
+- file_system.move_directory: Move a directory to another location.
+- file_system.compress_directory: Compress a directory.
+- file_system.decompress_file: Decompress a compressed file.
+
+## spotify — A music streaming app to stream songs and manage song, album and playlist libraries.
+- spotify.show_account: Show your account information. Unlike show_profile, this includes private information.
+- spotify.signup: Sign up to create account.
+- spotify.delete_account: Delete your account.
+- spotify.update_account_name: Update your first or last name in the account profile.
+- spotify.login: Login to your account.
+- spotify.logout: Logout from your account.
+- spotify.send_verification_code: Send account verification code to your email address.
+- spotify.verify_account: Verify your account using the verification code sent to your email address.
+- spotify.send_password_reset_code: Send password reset code to your email address.
+- spotify.reset_password: Reset your password using the password reset code sent to your email address.
+- spotify.show_profile: Show public profile information of a user.
+- spotify.show_genres: Show the list of all music genres.
+- spotify.search_songs: Search for songs with a query.
+- spotify.show_song: Get details of a specific song.
+- spotify.show_song_privates: Show information about the song that is private to the user.
+- spotify.like_song: Like a song.
+- spotify.unlike_song: Unlike a song.
+- spotify.show_liked_songs: Get a list of songs you have liked.
+- spotify.search_albums: Search for albums with a query.
+- spotify.show_album: Get details of a specific album.
+- spotify.show_album_privates: Show information about the album that is private to the user.
+- spotify.like_album: Like a album.
+- spotify.unlike_album: Unlike a album.
+- spotify.show_liked_albums: Get a list of albums you have liked.
+- spotify.show_playlist_library: Get a list of playlists in the user's playlist library.
+- spotify.search_playlists: Search for playlists with a query. It will search over all public playlists and your own private playlists.
+- spotify.create_playlist: Create a new playlist.
+- spotify.show_playlist: Get detailed information about a specific playlist. You can view your own playlists or others' playlists if they are public.
+- spotify.delete_playlist: Delete a playlist.
+- spotify.update_playlist: Update a playlist title or privacy.
+- spotify.show_playlist_privates: Show information about the playlist that is private to the user.
+- spotify.like_playlist: Like a playlist.
+- spotify.unlike_playlist: Unlike a playlist.
+- spotify.show_liked_playlists: Get a list of playlists you have liked.
+- spotify.search_artists: Search for artists with a query.
+- spotify.show_artist: Get details of a specific artist.
+- spotify.show_artist_following: Show if the user is following the artist.
+- spotify.show_song_library: Get a list of songs in the user's song library.
+- spotify.add_song_to_library: Add a song to the user's song library.
+- spotify.remove_song_from_library: Remove a song from the user's song library.
+- spotify.show_album_library: Get a list of albums in the user's album library.
+- spotify.add_album_to_library: Add an album to the user's album library.
+- spotify.remove_album_from_library: Remove an album from the user's album library.
+- spotify.add_song_to_playlist: Add a song to a playlist.
+- spotify.remove_song_from_playlist: Remove a song from a playlist.
+- spotify.show_downloaded_songs: Get a list of downloaded songs.
+- spotify.download_song: Download a song.
+- spotify.remove_downloaded_song: Remove a song from downloads.
+- spotify.show_following_artists: Get a list of artists the user is following.
+- spotify.follow_artist: Follow an artist.
+- spotify.unfollow_artist: Unfollow an artist.
+- spotify.show_song_reviews: Get a list of reviews for a song.
+- spotify.review_song: Rate or review a song.
+- spotify.show_song_review: Show a song review.
+- spotify.delete_song_review: Delete a song review.
+- spotify.update_song_review: Update a song review.
+- spotify.show_album_reviews: Get a list of reviews for an album.
+- spotify.review_album: Rate or review an album.
+- spotify.show_album_review: Show an album review.
+- spotify.delete_album_review: Delete an album review.
+- spotify.update_album_review: Update an album review.
+- spotify.show_playlist_reviews: Show a list of reviews for your playlist or others' public playlist.
+- spotify.review_playlist: Rate or review a playlist.
+- spotify.show_playlist_review: Show a playlist review.
+- spotify.delete_playlist_review: Delete a playlist review.
+- spotify.update_playlist_review: Update a playlist review.
+- spotify.show_payment_cards: Get a list of users payment cards.
+- spotify.add_payment_card: Add a new payment card.
+- spotify.show_payment_card: Get details of a payment card.
+- spotify.delete_payment_card: Delete payment card information.
+- spotify.update_payment_card: Update payment card information.
+- spotify.show_current_song: Show details of the current song on the queue.
+- spotify.play_music: Play music based on various criteria. You can pass, at most, any one of queue_position, song_id, album_id or playlist_id. If one of song_id, album_id or playlist_id is passed, that song, album or playlist will be added to the queue and played. Otherwise, the queue will remain unchanged. If queue_position is passed, the song at that position in the queue will be played. If none is passed, the current song in the queue will be played.
+- spotify.pause_music: Pause the currently playing song.
+- spotify.previous_song: Go to the previous song in the song queue.
+- spotify.next_song: Go to the next song in the song queue.
+- spotify.move_song_in_queue: Move a song in the queue to a new position.
+- spotify.seek_song: Seek the current song to the given number of seconds.
+- spotify.loop_song: Set whether to loop the current song.
+- spotify.shuffle_song_queue: Shuffle songs in the music player queue.
+- spotify.show_song_queue: Get the music player song queue. Songs are played in the order of the queue in a cycle.
+- spotify.add_to_queue: Add a song, album or playlist to the music player song queue.
+- spotify.clear_song_queue: Clear the music player song queue.
+- spotify.remove_song_from_queue: Remove a song at the given position from the music player song queue.
+- spotify.show_volume: Get the volume level of the music player.
+- spotify.set_volume: Set the volume level of the music player.
+- spotify.show_recommendations: Get personalized song recommendations for the user.
+- spotify.show_premium_plans: Show information about premium plans available.
+- spotify.show_premium_subscriptions: Show your premium subscription history.
+- spotify.subscribe_premium: Subscribe to premium membership.
+- spotify.download_premium_subscription_receipt: Download the receipt for a premium subscription.
+
+## venmo — A social payment app to send, receive and request money to and from others.
+- venmo.show_account: Show your account information. Unlike show_profile, this includes private information.
+- venmo.signup: Sign up to create account.
+- venmo.delete_account: Delete your account.
+- venmo.update_account_name: Update your first or last name in the account profile.
+- venmo.login: Login to your account.
+- venmo.logout: Logout from your account.
+- venmo.send_verification_code: Send account verification code to your email address.
+- venmo.verify_account: Verify your account using the verification code sent to your email address.
+- venmo.send_password_reset_code: Send password reset code to your email address.
+- venmo.reset_password: Reset your password using the password reset code sent to your email address.
+- venmo.show_profile: Show public profile information of a user, including your friendship status with them.
+- venmo.search_users: Search Venmo users by name or email address.
+- venmo.search_friends: Search your or others' friends by name or email address.
+- venmo.add_friend: Add a friend to your friend list.
+- venmo.remove_friend: Remove a friend from your friend list.
+- venmo.show_venmo_balance: Show your Venmo balance.
+- venmo.add_to_venmo_balance: Add money to your Venmo balance.
+- venmo.withdraw_from_venmo_balance: Withdraw money from your Venmo balance.
+- venmo.show_bank_transfer_history: Show histroy of money transfer from Venmo to payment card and vice versa.
+- venmo.download_bank_transfer_receipt: Download the receipt of money transfer from Venmo to payment card or vice versa.
+- venmo.show_transaction: Show transaction details.
+- venmo.update_transaction: Update transaction information.
+- venmo.show_transactions: Get a list of your transactions.
+- venmo.create_transaction: Send money to a user.
+- venmo.download_transaction_receipt: Download the receipt of a transaction (money sent from one user to another).
+- venmo.like_transaction: Like a transaction.
+- venmo.unlike_transaction: Unlike a transaction.
+- venmo.show_transaction_comments: Get a list of transaction comments.
+- venmo.create_transaction_comment: Create a new transaction comment.
+- venmo.show_transaction_comment: Show detailed information about a transaction comment.
+- venmo.delete_transaction_comment: Delete a transaction comment.
+- venmo.update_transaction_comment: Update a transaction comment.
+- venmo.like_transaction_comment: Like a transaction comment.
+- venmo.unlike_transaction_comment: Unlike a previously liked transaction comment.
+- venmo.show_payment_card: Get details of a payment card.
+- venmo.delete_payment_card: Delete payment card information.
+- venmo.update_payment_card: Update payment card information.
+- venmo.show_payment_cards: Get a list of users payment cards.
+- venmo.add_payment_card: Add a new payment card.
+- venmo.show_received_payment_requests: Get a list of payment requests you have received from others.
+- venmo.show_sent_payment_requests: Get a list of payment requests you have sent to others.
+- venmo.create_payment_request: Send a payment request.
+- venmo.delete_payment_request: Delete a payment request.
+- venmo.update_payment_request: Update payment request information.
+- venmo.approve_payment_request: Approve a payment request.
+- venmo.deny_payment_request: Deny a payment request.
+- venmo.remind_payment_request: Send a reminder to a user via notification about this payment request.
+- venmo.show_social_feed: Show your social feed (transactions of your friends).
+- venmo.show_notifications: Get a list of your notifications.
+- venmo.delete_notifications: Delete all of your notifications.
+- venmo.mark_notifications: Mark all notifications as read or unread.
+- venmo.show_notifications_count: Get the count of your notifications.
+- venmo.delete_notification: Delete a notification.
+- venmo.mark_notification: Mark a notification as read or unread.
+
+## gmail — An email app to draft, send, receive, and manage emails.
+- gmail.show_account: Show your account information. Unlike show_profile, this includes private information.
+- gmail.signup: Sign up to create account.
+- gmail.delete_account: Delete your account.
+- gmail.update_account_name: Update your first or last name in the account profile.
+- gmail.login: Login to your account.
+- gmail.logout: Logout from your account.
+- gmail.send_password_reset_code: Send password reset code to your email address.
+- gmail.reset_password: Reset your password using the password reset code sent to your email address.
+- gmail.show_profile: Show public profile information of a user.
+- gmail.search_users: Search Gmail users by name or email address.
+- gmail.show_inbox_threads: Show or search email threads you have received. This will not show detailed information about emails within the thread.
+- gmail.show_outbox_threads: Show or search email threads you have sent. This will not show detailed information about emails within the thread.
+- gmail.show_archived_threads: Show or search email threads you have archived. This will not show detailed information about emails within the thread.
+- gmail.show_spam_threads: Show or search email threads that have been marked as spam. This will not show detailed information about emails within the thread.
+- gmail.show_category_sizes: Show the number of email threads in each category of inbox, outbox, archived, spam, and the number of unscheduled and scheduled email drafts.
+- gmail.show_thread: Show detailed information about a given email thread, including emails and drafts within it.
+- gmail.delete_thread: Delete an email thread.
+- gmail.show_email: Show detailed information about a given email.
+- gmail.label_thread: Label an email thread.
+- gmail.unlabel_thread: Remove label from an email thread.
+- gmail.mark_thread_read: Mark an email thread as read.
+- gmail.mark_thread_unread: Mark an email thread as unread.
+- gmail.mark_thread_archived: Mark an email thread as archived.
+- gmail.mark_thread_unarchived: Mark an email thread as unarchived.
+- gmail.mark_thread_spam: Mark an email thread as spam.
+- gmail.mark_thread_not_spam: Mark an email thread as not spam.
+- gmail.mark_thread_starred: Mark an email thread as starred.
+- gmail.mark_thread_unstarred: Mark an email thread as unstarred.
+- gmail.delete_email_in_thread: Delete an email in a thread.
+- gmail.send_email: Send a new email to one or more recipients.
+- gmail.reply_to_email: Reply to an existing email in a thread.
+- gmail.forward_email_from_thread: Forward an email from an email thread to one or more recipients.
+- gmail.forward_email_thread: Forward entire email thread to one or more recipients.
+- gmail.show_drafts: Show a list of user drafts.
+- gmail.create_draft: Create a new draft.
+- gmail.show_draft: Show detailed draft information.
+- gmail.delete_draft: Delete draft information.
+- gmail.update_draft: Update draft information.
+- gmail.send_email_from_draft: Send a new email from a draft right away.
+- gmail.download_attachment: Download a file attachment.
+- gmail.upload_attachments_to_draft: Upload attachments to a draft.
+- gmail.remove_attachment_from_draft: Delete an attachment from a draft.
+
+## splitwise — A bill splitting app to track and split expenses with people.
+- splitwise.show_account: Show your account information. Unlike show_profile, this includes private information.
+- splitwise.signup: Sign up to create account.
+- splitwise.delete_account: Delete your account.
+- splitwise.update_account_name: Update your first or last name in the account profile.
+- splitwise.login: Login to your account.
+- splitwise.logout: Logout from your account.
+- splitwise.send_verification_code: Send account verification code to your email address.
+- splitwise.verify_account: Verify your account using the verification code sent to your email address.
+- splitwise.send_password_reset_code: Send password reset code to your email address.
+- splitwise.reset_password: Reset your password using the password reset code sent to your email address.
+- splitwise.show_profile: Show public profile information of a user.
+- splitwise.search_users: Search Splitwise users by name or email address.
+- splitwise.show_activity: Show a history of your expenses and payments combined.
+- splitwise.show_groups: Get a list of groups you are a member of.
+- splitwise.create_group: Create a new group of friends or family to share expenses with.
+- splitwise.show_group: Show group details based on its ID.
+- splitwise.delete_group: Delete a group you are a member of. Any member can undelete it later.
+- splitwise.update_group: Update group information.
+- splitwise.undelete_group: Undelete a group you are a member of.
+- splitwise.add_member_to_group: Add a member to a group.
+- splitwise.remove_member_from_group: Remove a member from a group.
+- splitwise.exit_group: Exit from a group you are a part of.
+- splitwise.regenerate_invitation_code: Regenerate the invitation code for a group. Anyone with this code can join the group. The old code will be invalidated.
+- splitwise.accept_group_invitation: Accept a group invitation shared with you by one of its members.
+- splitwise.record_expense: Record a new expense to share with others.
+- splitwise.download_expense_receipt_file: Download a receipt file attachment for an expense.
+- splitwise.attach_expense_receipt_file: Attach a receipt file to an expense.
+- splitwise.delete_expense_receipt_file: Delete the receipt file from an expense.
+- splitwise.show_expense: Show detailed expense information based on its ID.
+- splitwise.delete_expense: Mark the expense you are involved in as deleted. Anyone involved in the expense or a member of its group can undelete it later.
+- splitwise.update_expense: Update expense information.
+- splitwise.show_group_expenses: Show or search your expenses from a given group based on various criteria.
+- splitwise.show_no_group_expenses: Show or search your expenses that are not part of any group based on various criteria.
+- splitwise.undelete_expense: Restore a previously deleted expense you are involved in.
+- splitwise.show_expense_comments: Get a list of expense comments.
+- splitwise.post_expense_comment: Post a a comment on an expense.
+- splitwise.show_expense_comment: Get information about a comment posted on an expense.
+- splitwise.delete_expense_comment: Delete a comment you posted on an expense.
+- splitwise.update_expense_comment: Update a comment you posted on an expense.
+- splitwise.record_payment: Record a new payment for an expense. This only records payment on splitwise and does not move real money.
+- splitwise.download_payment_receipt_file: Download receipt file attachment for a payment.
+- splitwise.attach_payment_receipt_file: Attach a receipt file to a payment.
+- splitwise.delete_payment_receipt_file: Delete the receipt file from a payment.
+- splitwise.show_payment: Show payment details based on its ID.
+- splitwise.delete_payment: Mark the payment you are involved in as deleted. Anyone involved in the payment or a member of its group can undelete it later.
+- splitwise.update_payment: Update payment information.
+- splitwise.show_group_payments: Show all the payments that are part of the given group.
+- splitwise.show_no_group_payments: Show payments you are involved in that are not part of any group.
+- splitwise.undelete_payment: Restore a previously deleted payment you are involved in.
+- splitwise.show_person_balance: Show the amounts you and a given person owe to each other, broken down by group. The non-grouped expenses/payments will be shown as a group with ID None.
+- splitwise.show_people_balance: Show the aggregate amounts you owe to each person and they owe to you.
+- splitwise.show_group_balance: For the given group, show the detailed breakdown of amounts different members owe to each other. If group_id is not passed, show the amounts you owe to others and vice-versa for non-grouped expenses/payments.
+- splitwise.show_groups_balance: Show the aggregate amounts you owe to others or others owe you for each group you are member of. The non-grouped expenses/payments will be shown as a group with group_id of None.
+- splitwise.settle_up: Settle up outstanding balance with a user in a group. This only records payment on splitwise and does not move real money.
+- splitwise.show_payment_comments: Get a list of payment comments.
+- splitwise.post_payment_comment: Create a new payment comment.
+- splitwise.show_payment_comment: Get information about a comment posted on a payment.
+- splitwise.delete_payment_comment: Delete a comment you posted on a payment.
+- splitwise.update_payment_comment: Update a payment comment.
+- splitwise.show_notifications: Get a list of your notifications.
+- splitwise.delete_notifications: Delete all of your notifications.
+- splitwise.mark_notifications: Mark all notifications as read or unread.
+- splitwise.show_notifications_count: Get the count of your notifications.
+- splitwise.delete_notification: Delete a notification.
+- splitwise.mark_notification: Mark a notification as read or unread.
+
+## simple_note — A note-taking app to create and manage notes
+- simple_note.show_account: Show your account information. Unlike show_profile, this includes private information.
+- simple_note.signup: Sign up to create account.
+- simple_note.delete_account: Delete your account.
+- simple_note.update_account_name: Update your first or last name in the account profile.
+- simple_note.login: Login to your account.
+- simple_note.logout: Logout from your account.
+- simple_note.send_verification_code: Send account verification code to your email address.
+- simple_note.verify_account: Verify your account using the verification code sent to your email address.
+- simple_note.send_password_reset_code: Send password reset code to your email address.
+- simple_note.reset_password: Reset your password using the password reset code sent to your email address.
+- simple_note.show_profile: Show public profile information of a user.
+- simple_note.search_notes: Search your notes. This will not show contents of the notes. Pinned notes will be shown first by default, except when dont_reorder_pinned is true.
+- simple_note.create_note: Create a new note.
+- simple_note.show_note: Show detailed information of a note, including its content.
+- simple_note.delete_note: Delete a note.
+- simple_note.update_note: Update a note's title, content, tags, and/or pinned status.
+- simple_note.add_content_to_note: Append or prepend content to a note.
+
+## todoist — A task management app to manage todo lists and collaborate on them with others.
+- todoist.show_account: Show your account information. Unlike show_profile, this includes private information.
+- todoist.signup: Sign up to create account.
+- todoist.delete_account: Delete your account.
+- todoist.update_account_name: Update your first or last name in the account profile.
+- todoist.login: Login to your account.
+- todoist.logout: Logout from your account.
+- todoist.send_verification_code: Send account verification code to your email address.
+- todoist.verify_account: Verify your account using the verification code sent to your email address.
+- todoist.send_password_reset_code: Send password reset code to your email address.
+- todoist.reset_password: Reset your password using the password reset code sent to your email address.
+- todoist.show_profile: Show public profile information of a user.
+- todoist.search_users: Search Todoist users by name or email address.
+- todoist.show_projects: Show or search a list of your projects.
+- todoist.create_project: Create a new project.
+- todoist.show_project: Show project details based on its ID.
+- todoist.delete_project: Delete a project.
+- todoist.update_project: Update project information.
+- todoist.show_sections: Get a list of sections within a project.
+- todoist.create_section: Create a new section within a project.
+- todoist.delete_section: Delete a section within a project.
+- todoist.update_section: Update section information.
+- todoist.remove_collaborator_from_project: Remove a collaborator (or self) from a project.
+- todoist.send_project_invite: Invite a collaborator to join a project. They will be notified via email.
+- todoist.accept_project_invite: Accept an invite to join a project using an invite code generated by a project collaborator.
+- todoist.delete_project_invite: Delete a project invite that you sent or received.
+- todoist.show_tasks: Get a list of tasks within a project.
+- todoist.create_task: Create a new task within a project.
+- todoist.assign_or_unassign_task: Assign or unassign a task to a user. If assignee_email is null, the task will be unassigned.
+- todoist.show_task: Show detailed information about the task.
+- todoist.delete_task: Delete a task.
+- todoist.update_task: Update task information.
+- todoist.show_sub_tasks: Get a list of sub_tasks within a task.
+- todoist.create_sub_task: Create a new sub_task within a task.
+- todoist.delete_sub_task: Delete a sub_task.
+- todoist.update_sub_task: Update sub_task information.
+- todoist.search_labels: Search your or task labels.
+- todoist.create_label: Create a new label.
+- todoist.show_label: Show label details based on its ID.
+- todoist.delete_label: Delete a label.
+- todoist.update_label: Update label information.
+- todoist.add_label_to_task: Add a label to a task.
+- todoist.remove_label_from_task: Remove a label from a task.
+- todoist.show_task_comments: Get a list of task comments.
+- todoist.post_task_comment: Post a comment on a task, optionally with a file attachment.
+- todoist.show_task_comment: Show a task comment.
+- todoist.delete_task_comment: Delete a task comment.
+- todoist.update_task_comment: Update a task comment.
+- todoist.upload_attachment: Upload an attachment to a task comment.
+- todoist.download_attachment: Download the attachment of a task comment.
+- todoist.delete_attachment: Delete an attachment of a task comment.
+- todoist.show_notifications: Get a list of your notifications.
+- todoist.delete_notifications: Delete all of your notifications.
+- todoist.mark_notifications: Mark all notifications as read or unread.
+- todoist.show_notifications_count: Get the count of your notifications.
+- todoist.delete_notification: Delete a notification.
+- todoist.mark_notification: Mark a notification as read or unread.
