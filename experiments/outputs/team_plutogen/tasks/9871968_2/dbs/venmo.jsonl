@@ -1,0 +1,2 @@
+["UPDATE users SET record_hash=?, venmo_balance=? WHERE users.id = ?",["nvYl17uRQmY=",8765.91,50],false]
+["INSERT INTO bank_transfers (transfer_type, created_at, record_hash, user_id, amount, payment_card_digits, receipt_download_count) VALUES (?, ?, ?, ?, ?, ?, ?)",["venmo_to_card","2023-05-18 12:00:00.000000","VOwmI5Lg3JQ=",50,2900.09,"3734",0],false]

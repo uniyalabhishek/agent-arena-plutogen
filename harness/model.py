@@ -5,9 +5,6 @@ Backends behind ONE interface (`complete(system, messages) -> str`):
                  (openrouter/meta-llama/llama-3.3-70b-instruct = the mandated
                  Llama 3.3 70B, routed across providers to dodge rate limits).
   - groq       : OpenAI-compatible REST via httpx (groq/llama-3.3-70b-versatile).
-  - anthropic  : official SDK (prompt caching, extended thinking) — cheap LOCAL
-                 dev/debugging only; not for scored runs.
-
 No litellm anywhere — it pulls pydantic v2 and breaks the appworld engine
 (pydantic v1). Backend is inferred from the MODEL provider prefix, so the rest
 of the harness never changes when we swap providers.
@@ -24,17 +21,13 @@ _OPENAI_COMPAT = {
     "groq": ("https://api.groq.com/openai/v1/chat/completions", "GROQ_API_KEY"),
     "openrouter": ("https://openrouter.ai/api/v1/chat/completions", "OPENROUTER_API_KEY"),
 }
-_THINKING_BUDGET = {"low": 1024, "medium": 4096, "high": 8192}
 
 
 def _infer_backend(model_id: str) -> str:
     head = model_id.split("/", 1)[0].lower()
     if head in _OPENAI_COMPAT:
         return head  # "groq" | "openrouter"
-    if head in ("anthropic", "claude"):
-        return "anthropic"
-    # bare ids: treat claude-* as anthropic, otherwise assume openrouter
-    return "anthropic" if model_id.lower().startswith("claude") else "openrouter"
+    return "openrouter"
 
 
 class Model:
@@ -46,7 +39,9 @@ class Model:
         max_tokens: int | None = None,
         reasoning: str | None = None,
     ) -> None:
-        self.model_id = model_id or os.environ.get("MODEL", "groq/llama-3.3-70b-versatile")
+        self.model_id = model_id or os.environ.get(
+            "MODEL", "openrouter/meta-llama/llama-3.3-70b-instruct"
+        )
         self.backend = _infer_backend(self.model_id)
         self.max_tokens = max_tokens or int(os.environ.get("MAX_OUTPUT_TOKENS", "2048"))
         self.temperature = float(os.environ.get("TEMPERATURE", "0"))
@@ -73,18 +68,15 @@ class Model:
                 headers["HTTP-Referer"] = os.environ.get("OPENROUTER_REFERER", "https://localhost/agent_arena")
                 headers["X-Title"] = os.environ.get("OPENROUTER_TITLE", "agent_arena")
             self._http = httpx.Client(timeout=httpx.Timeout(120.0), headers=headers)
-        else:  # anthropic
-            import anthropic
-            self._anthropic = anthropic
-            self.client = anthropic.Anthropic()
-            self._provider_model = self.model_id.split("/", 1)[-1]
+        else:
+            raise RuntimeError(f"Unsupported MODEL provider for scored run: {self.model_id}")
 
     # --- public interface ----------------------------------------------------
 
     def complete(self, system: str, messages: list[dict], cache_system: bool = True) -> str:
         if self.backend in _OPENAI_COMPAT:
             return self._complete_openai(system, messages)
-        return self._complete_anthropic(system, messages, cache_system)
+        raise RuntimeError(f"Unsupported model backend: {self.backend}")
 
     # --- openai-compatible (openrouter / groq) -------------------------------
 
@@ -133,49 +125,6 @@ class Model:
             raise RuntimeError(f"{self.backend} {resp.status_code}: {resp.text[:300]}")
         raise RuntimeError(f"{self.backend}: exhausted retries")
 
-    # --- anthropic (local dev only) ------------------------------------------
-
-    def _complete_anthropic(self, system: str, messages: list[dict], cache_system: bool) -> str:
-        anthropic = self._anthropic
-        system_blocks = [{"type": "text", "text": system}]
-        if cache_system:
-            system_blocks[-1]["cache_control"] = {"type": "ephemeral"}
-        kwargs: dict = {
-            "model": self._provider_model,
-            "max_tokens": self.max_tokens,
-            "system": system_blocks,
-            "messages": messages,
-        }
-        if self.reasoning:
-            budget = _THINKING_BUDGET[self.reasoning]
-            kwargs["thinking"] = {"type": "enabled", "budget_tokens": budget}
-            kwargs["temperature"] = 1
-            if self.max_tokens <= budget:
-                kwargs["max_tokens"] = budget + 1024
-        else:
-            kwargs["temperature"] = 1 if "opus" in self._provider_model else self.temperature
-
-        retryable = (
-            anthropic.RateLimitError, anthropic.APIConnectionError,
-            anthropic.InternalServerError, anthropic.APIStatusError,
-        )
-        for attempt in range(6):
-            try:
-                resp = self.client.messages.create(**kwargs)
-                break
-            except retryable:
-                if attempt == 5:
-                    raise
-                time.sleep(min(2 ** attempt, 30))
-        text = "".join(b.text for b in resp.content if b.type == "text")
-        u = resp.usage
-        self.calls += 1
-        self.in_tokens += u.input_tokens
-        self.out_tokens += u.output_tokens
-        self.cache_write += getattr(u, "cache_creation_input_tokens", 0) or 0
-        self.cache_read += getattr(u, "cache_read_input_tokens", 0) or 0
-        return text
-
     # --- diagnostics ---------------------------------------------------------
 
     def usage_summary(self) -> str:
@@ -188,4 +137,4 @@ class Model:
             if "x-ratelimit-remaining-requests" in rl:
                 extra += f" req_left={rl['x-ratelimit-remaining-requests']}"
             return base + extra
-        return base + f" cache_write={self.cache_write} cache_read={self.cache_read}"
+        return base

@@ -15,4 +15,4 @@
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["XPcVe1d5hZA=",1,"todoist","eRlD2Ci"],false]
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["LINHidvFxNE=",1,"venmo","+){p}(9"],false]
 ["INSERT INTO tasks (status, record_hash, supervisor_id, instruction, answer) VALUES (?, ?, ?, ?, ?)",[null,"ZyebEpSekBc=",1,"How many months of amazon prime subscription do I still have left? Round to the nearest number.","\"<<NOT_GIVEN>>\""],false]
-["UPDATE tasks SET status=?, record_hash=?, answer=? WHERE tasks.id = ?",["fail","MSDgtYIIgfM=","null",1],false]
+["UPDATE tasks SET status=?, record_hash=?, answer=? WHERE tasks.id = ?",["success","ddjGC70lvRM=","13.0",1],false]

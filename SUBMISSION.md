@@ -9,7 +9,7 @@ right — mismatches slow down or break scoring.
 |---|---|---|
 | **Team name** | lowercase letters/digits/underscores only, no spaces. This is your `<name>`. | `hydra_bolts` |
 | **GitHub repo URL** | public repo (or grant `interface4agi` read access) | `https://github.com/you/agent-arena-hydrabolts` |
-| **Model used** | the `provider/model` you ran | `anthropic/claude-sonnet-4-6` |
+| **Model used** | the `provider/model` you ran | `openrouter/meta-llama/llama-3.3-70b-instruct` |
 | **Self-reported TGC / SGC** | from your own `appworld evaluate` (see below) | `35.0 / 20.0` |
 | **HydraDB used?** | yes/no + one line on how (for the bonus) | `yes — API-doc retrieval + cross-task memory` |
 | **Integrity check** | confirm: general agent, no `task_id` hardcoding | `confirmed` |
@@ -29,7 +29,7 @@ eval set `agent_arena_eval` (the 10 tasks in [`EVAL.md`](EVAL.md)):
             ├── evaluations/
             │   └── agent_arena_eval.json   # REQUIRED — your self-eval
             └── tasks/
-                └── <task_id>/…             # all 20 tasks, INCLUDING each tasks/<id>/dbs/
+                └── <task_id>/…             # all 10 tasks, INCLUDING each tasks/<id>/dbs/
 ```
 
 - The folder **must** be named `team_<name>` and `<name>` **must** match the team
@@ -41,7 +41,7 @@ eval set `agent_arena_eval` (the 10 tasks in [`EVAL.md`](EVAL.md)):
 source .venv/bin/activate
 export APPWORLD_EXPERIMENT=team_<name>
 export APPWORLD_DATASET=agent_arena_eval MAX_TASKS=0
-python agent.py                                   # runs all 20 tasks
+python agent.py                                   # runs all 10 tasks
 appworld evaluate team_<name> agent_arena_eval    # prints your TGC/SGC -> put in the form
 ```
 Then commit `experiments/outputs/team_<name>/` to your repo and submit the repo URL.

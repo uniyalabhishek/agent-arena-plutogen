@@ -22,8 +22,14 @@ load_dotenv(dotenv_path=os.path.join(_ROOT, ".env"))
 from harness.hydra import HydraClient  # noqa: E402
 from harness.retrieval import HYDRA_TENANT  # noqa: E402
 
-_SCHEMA = [{"name": "apps", "data_type": "VARCHAR", "enable_match": True,
-            "enable_sparse_embedding": True, "max_length": 256}]
+_SCHEMA = [
+    {"name": "apps", "data_type": "VARCHAR", "enable_match": True,
+     "enable_sparse_embedding": True, "max_length": 256},
+    {"name": "app_sig", "data_type": "VARCHAR", "enable_match": True,
+     "enable_sparse_embedding": True, "max_length": 256},
+    {"name": "artifact_type", "data_type": "VARCHAR", "enable_match": True,
+     "enable_sparse_embedding": True, "max_length": 64},
+]
 
 
 def main() -> None:
@@ -32,13 +38,35 @@ def main() -> None:
     print(f"tenant '{HYDRA_TENANT}': create ->", c.create_tenant(HYDRA_TENANT, _SCHEMA).get("status"))
     print("waiting for tenant infra ...", "ready" if c.wait_tenant(HYDRA_TENANT, timeout=180) else "TIMEOUT")
 
-    items = [{
-        "id": d["task_id"],
-        "title": d["instruction"][:160],
-        "type": "text",
-        "content": {"text": d["instruction"]},
-        "tenant_metadata": {"apps": ",".join(d.get("required_apps") or [])},
-    } for d in demos]
+    items = []
+    for d in demos:
+        apps = sorted(d.get("required_apps") or [])
+        app_sig = "|".join(apps)
+        metadata = {"apps": ",".join(apps), "app_sig": app_sig, "artifact_type": "demo"}
+        items.append({
+            "id": d["task_id"],
+            "title": d["instruction"][:160],
+            "type": "text",
+            "kind": "custom",
+            "provider": "appworld_demo",
+            "external_id": d["task_id"],
+            "content": {"text": f"{d['instruction']}\nApps: {', '.join(apps)}"},
+            "fields": {
+                "kind": "custom",
+                "data": {
+                    "instruction": d["instruction"],
+                    "required_apps": apps,
+                    "required_apis": d.get("required_apis") or [],
+                },
+            },
+            "metadata": metadata,
+            "tenant_metadata": metadata,
+            "additional_metadata": {
+                "task_family": d["task_id"].rsplit("_", 1)[0],
+                "required_apps": apps,
+                "required_apis": d.get("required_apis") or [],
+            },
+        })
 
     ids = [d["task_id"] for d in demos]
     BATCH = 30
@@ -60,7 +88,7 @@ def main() -> None:
     hits = c.query(HYDRA_TENANT, q, k=3)
     print(f"\nsmoke query: {q[:60]!r}")
     for ch in hits:
-        print(f"   {ch.get('id')}  score={ch.get('relevancy_score')}")
+        print(f"   {ch.get('source_id') or ch.get('id')}  score={ch.get('relevancy_score')}")
 
 
 if __name__ == "__main__":

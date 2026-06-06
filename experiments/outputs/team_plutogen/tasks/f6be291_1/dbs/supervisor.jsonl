@@ -16,4 +16,3 @@
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["q86jfsi2q9w=",1,"todoist","!PT38{C"],false]
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["ILnpaHMzbKw=",1,"venmo","F[QML{n"],false]
 ["INSERT INTO tasks (status, record_hash, supervisor_id, instruction, answer) VALUES (?, ?, ?, ?, ?)",[null,"fZWYGRCXj34=",1,"We are planning a get-together with our friends next week. Buy stuff according to the checklist my husband sent me over email.","\"<<NOT_GIVEN>>\""],false]
-["UPDATE tasks SET status=?, record_hash=?, answer=? WHERE tasks.id = ?",["success","MWeDXH4hod8=","null",1],false]

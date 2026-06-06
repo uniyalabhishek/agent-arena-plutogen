@@ -1,5 +1,5 @@
 {
-    "supervisor": {
-        "Task": 1
+    "amazon": {
+        "CartEntry": 1
     }
 }

@@ -15,4 +15,4 @@
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["VIdM62E5Roo=",1,"todoist","u)(1oKU"],false]
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["w00zifGt0Lg=",1,"venmo","^%Rz^Sj"],false]
 ["INSERT INTO tasks (status, record_hash, supervisor_id, instruction, answer) VALUES (?, ?, ?, ?, ?)",[null,"pztqsssCAAo=",1,"Buy me a watch from amazon within $110 (excluding tax). Only trust sellers I have ordered from in the past.","\"<<NOT_GIVEN>>\""],false]
-["UPDATE tasks SET status=?, record_hash=?, answer=? WHERE tasks.id = ?",["success","ND1M5J5kqmA=","\"Watch added to cart\"",1],false]
+["UPDATE tasks SET status=?, record_hash=?, answer=? WHERE tasks.id = ?",["success","4FYv56fPyjE=","null",1],false]

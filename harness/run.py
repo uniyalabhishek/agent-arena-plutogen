@@ -1,19 +1,21 @@
 """Run the harness over an AppWorld split and write a valid output folder.
 
 Env vars (same contract as the starter):
-  ANTHROPIC_API_KEY    in ../.env
-  MODEL                e.g. claude-sonnet-4-6 | claude-haiku-4-5-20251001 | claude-opus-4-8
-  REASONING            ""|low|medium|high  (extended thinking)
-  APPWORLD_DATASET     dev | test_normal | test_challenge
+  OPENROUTER_API_KEY   official Llama 3.3 70B backend
+  HYDRA_DB_API_KEY     optional HydraDB demo retrieval backend
+  MODEL                default openrouter/meta-llama/llama-3.3-70b-instruct
+  APPWORLD_DATASET     dev | test_normal | test_challenge | agent_arena_eval
   APPWORLD_EXPERIMENT  unique team/run id -> experiments/outputs/<id>/
   MAX_TASKS            0 = all
   MAX_INTERACTIONS     per-task step cap (default 40)
 
-Feature flags (default OFF — enable per-run once measured to help on Groq):
+Feature flags:
   INJECT_CATALOG       inject the full 457-API catalog into the system prompt
+  PLAYBOOK_ROUTER      inject a compact generic workflow plan selected from task text
   SELF_VERIFY          require a verification code block before complete_task
+  COMPLETE_GUARD       block premature complete_task on generic mutation/answer traits
   MODEL                openrouter/meta-llama/llama-3.3-70b-instruct (scored) |
-                       groq/llama-3.3-70b-versatile | anthropic/claude-* (local dev)
+                       groq/llama-3.3-70b-versatile
   MAX_OUTPUT_TOKENS    per-reply cap (default 2048); TEMPERATURE (default 0)
 """
 from __future__ import annotations
@@ -30,6 +32,7 @@ from appworld import AppWorld, load_task_ids  # noqa: E402  (after dotenv)
 
 from harness.agent import ReActAgent  # noqa: E402
 from harness.model import Model  # noqa: E402
+from harness.playbooks import render_playbook  # noqa: E402
 from harness.retrieval import build_default  # noqa: E402
 
 
@@ -144,9 +147,14 @@ def main() -> None:
     if os.environ.get("INJECT_DEMOS", "1") == "1":  # default ON: +24 TGC on Llama via HydraDB demos
         retriever = build_default(k=int(os.environ.get("DEMO_K", "2")))
         if retriever is not None:
-            features.append(f"demos(k={retriever.k})")
+            features.append(f"demos(k={retriever.k},{retriever.__class__.__name__})")
+    playbook_renderer = None
+    if os.environ.get("PLAYBOOK_ROUTER", "1") == "1":
+        playbook_renderer = render_playbook
+        features.append("playbook_router")
     agent = ReActAgent(model, preamble=build_preamble(), max_steps=max_steps,
-                       system_addendum=addendum, retriever=retriever)
+                       system_addendum=addendum, retriever=retriever,
+                       playbook_renderer=playbook_renderer)
     shard = f" [shard {proc_idx + 1}/{num_proc}]" if num_proc > 1 else ""
     print(f"Running '{experiment}'{shard} on {len(task_ids)} '{dataset}' tasks with {model_id} "
           f"(reasoning={model.reasoning}, max_steps={max_steps}, features={features or ['none']})", flush=True)
@@ -168,6 +176,12 @@ def main() -> None:
     dt = time.time() - t0
     print(f"\nDone in {dt:.0f}s. completed_loop={completed}/{len(task_ids)} "
           f"(note: loop-completion != graded TGC). Outputs in experiments/outputs/{experiment}/", flush=True)
+    if retriever is not None and hasattr(retriever, "hydra_calls"):
+        print(
+            f"Retriever stats: hydra_calls={getattr(retriever, 'hydra_calls', 0)} "
+            f"fallbacks={getattr(retriever, 'fallbacks', 0)}",
+            flush=True,
+        )
     print(f"Evaluate with:  appworld evaluate {experiment} {dataset}", flush=True)
 
 

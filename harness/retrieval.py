@@ -31,9 +31,47 @@ _STOP = {
     "all", "any", "each", "get", "give", "list", "show", "what", "which", "who",
 }
 
+_APP_WORDS = (
+    "amazon", "file_system", "gmail", "phone", "simple_note", "splitwise",
+    "spotify", "todoist", "venmo",
+)
+_APP_ALIASES = {
+    "file": "file_system",
+    "filesystem": "file_system",
+    "file system": "file_system",
+    "note": "simple_note",
+    "simple note": "simple_note",
+    "email": "gmail",
+    "mail": "gmail",
+    "alarm": "phone",
+    "text": "phone",
+    "sms": "phone",
+    "song": "spotify",
+    "playlist": "spotify",
+    "album": "spotify",
+    "expense": "splitwise",
+    "bill": "splitwise",
+    "payment": "venmo",
+    "pay": "venmo",
+    "order": "amazon",
+    "buy": "amazon",
+    "purchase": "amazon",
+    "task": "todoist",
+    "todo": "todoist",
+}
+
 
 def _tokens(text: str) -> list[str]:
     return [t for t in _TOKEN.findall(text.lower()) if t not in _STOP and len(t) > 1]
+
+
+def infer_apps(text: str) -> set[str]:
+    low = text.lower()
+    found = {app for app in _APP_WORDS if app in low}
+    for alias, app in _APP_ALIASES.items():
+        if alias in low:
+            found.add(app)
+    return found
 
 
 def render_demos(hits: list[tuple[float, dict]], max_solution_chars: int = 2600) -> str:
@@ -49,15 +87,33 @@ def render_demos(hits: list[tuple[float, dict]], max_solution_chars: int = 2600)
         "values or assume the same items exist.\n"
     ]
     for n, (score, d) in enumerate(hits, 1):
-        sol = d["solution"].strip()
-        if len(sol) > max_solution_chars:
-            sol = sol[:max_solution_chars] + "\n# ...(truncated)"
+        sol = _trim_solution(d["solution"], max_solution_chars)
+        apps = ", ".join(d.get("required_apps") or []) or "unknown"
+        apis = ", ".join((d.get("required_apis") or [])[:10])
+        if len(d.get("required_apis") or []) > 10:
+            apis += ", ..."
         parts.append(
             f"\n## Example {n} (similarity {score:.2f})\n"
+            f"Apps: {apps}\n"
+            f"Key APIs: {apis or 'unknown'}\n"
             f"Task: {d['instruction']}\n"
-            f"Correct solution:\n```python\n{sol}\n```\n"
+            f"Correct solution pattern:\n```python\n{sol}\n```\n"
         )
     return "".join(parts)
+
+
+def _trim_solution(solution: str, limit: int) -> str:
+    """Preserve both setup and final verification/complete_task code."""
+    sol = solution.strip()
+    if len(sol) <= limit:
+        return sol
+    head_budget = max(800, limit // 2)
+    tail_budget = max(800, limit - head_budget)
+    return (
+        sol[:head_budget].rstrip()
+        + "\n# ... middle omitted; preserve approach, not values ...\n"
+        + sol[-tail_budget:].lstrip()
+    )
 
 
 def _load_demos(path: str) -> list[dict]:
@@ -134,29 +190,46 @@ class HydraRetriever:
     def retrieve(self, instruction: str) -> list[tuple[float, dict]]:
         # Ask for a larger candidate pool so reranking has room, then keep the
         # top-k UNIQUE families above the relevance threshold.
+        inferred_apps = infer_apps(instruction)
+        query = instruction
+        if inferred_apps:
+            query += "\nRelevant apps: " + ", ".join(sorted(inferred_apps))
         try:
-            chunks = self.client.query(self.tenant_id, instruction, k=max(6, 3 * self.k))
+            chunks = self.client.query(self.tenant_id, query, k=max(8, 4 * self.k))
             self.hydra_calls += 1
         except Exception:
             self.fallbacks += 1  # Hydra unreachable -> TF-IDF floor (never zero)
             return self.fallback.retrieve(instruction)
 
-        hits, seen_fam = [], set()
+        candidates: list[tuple[float, dict, str]] = []
         for ch in chunks:
-            d = self._by_id.get(ch.get("id"))
+            source_id = ch.get("source_id") or ch.get("id") or ch.get("external_id")
+            d = self._by_id.get(source_id)
             if d is None:
                 continue
             score = float(ch.get("relevancy_score", 0.0))
             if score < self.min_score:
                 continue  # below threshold: better to inject nothing than mislead
-            fam = self._family(ch["id"])
+            demo_apps = set(d.get("required_apps") or [])
+            if inferred_apps and demo_apps:
+                overlap = len(inferred_apps & demo_apps)
+                missing = len(inferred_apps - demo_apps)
+                score += 0.15 * overlap - 0.05 * missing
+            candidates.append((score, d, str(source_id)))
+
+        candidates.sort(key=lambda x: x[0], reverse=True)
+        hits, seen_fam = [], set()
+        for score, d, source_id in candidates:
+            fam = self._family(source_id)
             if fam in seen_fam:
                 continue
             seen_fam.add(fam)
             hits.append((score, d))
             if len(hits) >= self.k:
                 break
-        # On a successful query we trust the result, even if empty (uncovered app).
+        if not hits:
+            self.fallbacks += 1
+            return self.fallback.retrieve(instruction)
         return hits
 
     def render(self, instruction: str) -> str:

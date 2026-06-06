@@ -15,4 +15,4 @@
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["0+rjpZ+NMLU=",1,"todoist","+&R$o4K"],false]
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["ukl0BGC5r/E=",1,"venmo","rl2A-Xl"],false]
 ["INSERT INTO tasks (status, record_hash, supervisor_id, instruction, answer) VALUES (?, ?, ?, ?, ?)",[null,"YIe1/QKDGM0=",1,"I get monthly cable bill via email on the 1st of every month for the previous month's usage. I pay for it but its total cost is to be shared equally with my roommates and me. In our Splitwise group, create an expense for each month with a note \"cable bill [MM-YY]\" and the associated total cost (including my share). The MM-YY refers to the month and year the bill usage is for. Do it only for bills for this year's cable usage.","\"<<NOT_GIVEN>>\""],false]
-["UPDATE tasks SET status=?, record_hash=?, answer=? WHERE tasks.id = ?",["fail","G7Zc93Mghgo=","null",1],false]
+["UPDATE tasks SET status=?, record_hash=?, answer=? WHERE tasks.id = ?",["success","MN/8vg8Wa6U=","null",1],false]

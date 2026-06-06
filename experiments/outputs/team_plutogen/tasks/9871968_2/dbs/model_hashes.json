@@ -1,5 +1,28 @@
 {
     "amazon": {
-        "CartEntry": 64
+        "CartEntry": 8,
+        "Order": 1,
+        "OrderItem": 12,
+        "Product": 12
+    },
+    "admin": {
+        "PaymentCard": 2
+    },
+    "venmo": {
+        "User": 1,
+        "BankTransfer": 1
+    },
+    "file_system": {
+        "Directory": 4,
+        "File": 2
+    },
+    "gmail": {
+        "Email": 2,
+        "Attachment": 2,
+        "GlobalEmailThread": 2,
+        "UserEmailThread": 4
+    },
+    "supervisor": {
+        "Task": 1
     }
 }

@@ -6,13 +6,13 @@ task_ids (PROCESS_INDEX::NUM_PROCESSES), all writing to the SAME experiment dir
 processes, one world per process). Then evaluates the whole experiment so the
 submission folder contains evaluations/<split>.json.
 
-168 test_normal tasks serial ≈ 2.3h; at N=6 ≈ ~25-45 min depending on model.
-Server-side prompt caching is shared across processes (identical system prompt),
-so concurrency doesn't multiply the cached-token cost.
+The final agent_arena_eval split is small, but sharding still makes end-to-end
+checks faster when provider rate limits allow it.
 
 Usage:
-  NUM_PROCESSES=6 MODEL=claude-sonnet-4-6 APPWORLD_DATASET=test_normal \
-  APPWORLD_EXPERIMENT=team_x MAX_TASKS=0 .venv/bin/python scripts/run_parallel.py
+  NUM_PROCESSES=4 MODEL=openrouter/meta-llama/llama-3.3-70b-instruct \
+  APPWORLD_DATASET=agent_arena_eval APPWORLD_EXPERIMENT=team_plutogen \
+  MAX_TASKS=0 .venv/bin/python scripts/run_parallel.py
 """
 from __future__ import annotations
 

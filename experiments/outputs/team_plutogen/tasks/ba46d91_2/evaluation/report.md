@@ -17,4 +17,4 @@ with test(
     test.answer(predicted_answer, ground_truth_answer)
 ```
 ----------
-AssertionError:  'null' == '10'
+AssertionError:  '13' == '10'

@@ -1,4 +1,3 @@
 appworld
-anthropic          # local-dev backend only; scored runs use OpenRouter Llama 3.3 70B
 python-dotenv
 httpx              # OpenRouter + HydraDB calls (no litellm -> keeps appworld's pydantic v1)

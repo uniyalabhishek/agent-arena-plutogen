@@ -21,13 +21,7 @@ with test(
     test.case(changed_model_names, "==", {"gmail.Draft"})
 ```
 ----------
-AssertionError:
-{'gmail.GlobalEmailThread', 'gmail.Email', 'gmail.UserEmailThread'}
-==
-{'gmail.Draft'}
-
-In left but not right:
-['gmail.GlobalEmailThread', 'gmail.Email', 'gmail.UserEmailThread']
+AssertionError:  set() == {'gmail.Draft'}
 
 In right but not left:
 ['gmail.Draft']

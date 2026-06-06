@@ -29,10 +29,11 @@ cat <<'NEXT'
 
 ✅ Setup done. Next:
   source .venv/bin/activate
-  # put your key in .env  ->  ANTHROPIC_API_KEY=sk-...
-  export APPWORLD_EXPERIMENT=team_<yourname>
-  export APPWORLD_DATASET=dev MAX_TASKS=2     # quick smoke before the full run
-  python agent.py
+  # put your key in .env  ->  OPENROUTER_API_KEY=...
+  export APPWORLD_EXPERIMENT=team_plutogen
+  export APPWORLD_DATASET=agent_arena_eval MAX_TASKS=0
+  export MODEL=openrouter/meta-llama/llama-3.3-70b-instruct
+  python scripts/run_parallel.py
 
 Explore tasks interactively:  appworld play
 NEXT

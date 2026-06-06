@@ -16,3 +16,4 @@
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["fNiw7ZBMVwo=",1,"todoist","ItI_3PU"],false]
 ["INSERT INTO account_passwords (record_hash, supervisor_id, account_name, password) VALUES (?, ?, ?, ?)",["6ANtg/R4ulY=",1,"venmo","$LRYdG7"],false]
 ["INSERT INTO tasks (status, record_hash, supervisor_id, instruction, answer) VALUES (?, ?, ?, ?, ?)",[null,"j4tYhdrIjDE=",1,"Buy everything on my amazon wishlist, and have it delivered to my home address.","\"<<NOT_GIVEN>>\""],false]
+["UPDATE tasks SET status=?, record_hash=?, answer=? WHERE tasks.id = ?",["success","F+qo8G/WJr0=","null",1],false]
